@@ -1,0 +1,1135 @@
+{
+    "timezone": "UTC",
+    "Location": "47.2176763 -1.5591804,15.72",
+    "synchro_flag": 107,
+    "last_known_date": 20240909,
+    "daily_routeen_complete": 1,
+    "overheat": false,
+    "heater_base_value": "0x0023",
+    "heater_ref_address": "0x54",
+    "heater_ctl_address": "0x50",
+    "pid1_base_value": "0x5208",
+    "pid1_setpoint_address": "0x0000",
+    "pid1_output_address": "0x0003",
+    "incoming_ssh_port": 22,
+    "rpi_serial_port": "/dev/serial0",
+    "box": {
+        "id": "0123456789",
+        "port": "/dev/ttyACM0",
+        "baudrate": 115200,
+        "parity": "N",
+        "stopbits": 2,
+        "bytesize": 8,
+        "arduino_address": "0x69",
+        "sensor_address": "0x68",
+        "sensor_id": 0,
+        "sensor_id_addrss": "0x0008",
+        "tries": 3,
+        "last_user_data_file_id": 2019,
+        "user_data_data_step": 1,
+        "modbus_functions": {
+            "READ_MULTIPLE_HR": "0x03",
+            "READ_MULTIPLE_IR": "0x04",
+            "WRITE_SINGLE_HR": "0x06",
+            "WRITE_RAM": "0x41",
+            "WRITE_EPROM": "0x43",
+            "READ_RAM": "0x44",
+            "READ_FLASH": "0x45",
+            "READ_EPROM": "0x46",
+            "READ_COIL": "0x01",
+            "WRITE_SINGLE_COIL": "0x05",
+            "WRITE_MULTIPLE_COIL": "0x0F",
+            "WRITE_MULTIPLE_HR": "0x10"
+        }
+    },
+    "server": {
+        "host": "192.168.88.254",
+        "port": 22,
+        "username": "suez_data_crawler",
+        "password": "test1221",
+        "data_push_step": 15,
+        "upload_all_data": 0,
+        "remote_directories": {
+            "remote_raw_data": "c:/SUEZ_collected_data/",
+            "remote_user_data": "c:/SUEZ_collected_data/",
+            "remote_logs": "c:/SUEZ_collected_data/"
+        }
+    },
+    "local_directories": {
+        "raw_data": "data/raw_data/",
+        "user_data": "data/user_data/",
+        "logs": "logs/"
+    },
+    "local_files": {
+        "logs": "logs/20240909_K96Rpi-microservices-test_0_event.log",
+        "raw_data": "data/raw_data/20240909_K96Rpi-microservices-test_0_raw_data.csv",
+        "sensor_data": "data/raw_data/20240909_K96Rpi-microservices-test_0_sensor_data.txt",
+        "user_data": "data/user_data/NPC_K96Rpi-microservices-test_BOX0_1_20240909213404_2019.csv"
+    },
+    "sensor_info": {
+        "Integrated_Box_Type_ID": "",
+        "Integrated_Box_ID": "0123456789",
+        "Raspberry_Pi_CPU_SN": "10000000d99c3fd1",
+        "Raspberry_Pi_OS_version": "Linux-6.1.21-v8+-aarch64-with-glibc2.31",
+        "Raspberry_Pi_software_version": "0.5",
+        "Arduino_SN": null,
+        "Location_string_of_the_Integrated_box": "47.2176763,-1.5591804,15.72",
+        "EPROM_statuses": {
+            "MeterConfig": {
+                "address": "0x0012",
+                "data_length_bytes": 4,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "P1_3_Config": {
+                "address": "0x0010",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "P0_4_Config": {
+                "address": "0x0020",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "Error_handling_Config": {
+                "address": "0x0011",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPI_Control": {
+                "address": "0x006E",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPCB_LPL": {
+                "address": "0x003E",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPCB_SPL": {
+                "address": "0x0046",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPCB_MPL": {
+                "address": "0x0047",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPCB_Shunt": {
+                "address": "0x004E",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "PVselect_0": {
+                "address": "0x009E",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "CtrlReg_0": {
+                "address": "0x0091",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "XPL_DetTemp_Selector": {
+                "address": "0x012F",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_PC_Config": {
+                "address": "0x02A2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_Config": {
+                "address": "0x0200",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_FW_Gain": {
+                "address": "0x0202",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "LPL_Temp_Zero": {
+                "address": "0x0204",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Tz": {
+                "address": "0x0206",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Tz2": {
+                "address": "0x0208",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Zero": {
+                "address": "0x020A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "LPL_Zero_trim": {
+                "address": "0x020C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Ts": {
+                "address": "0x020E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Ts2": {
+                "address": "0x0210",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Span": {
+                "address": "0x0212",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "LPL_Tc": {
+                "address": "0x0214",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Tc2": {
+                "address": "0x0216",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Curve": {
+                "address": "0x0218",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Tz3": {
+                "address": "0x021A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Ts3": {
+                "address": "0x021C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Tc3": {
+                "address": "0x021E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_ConcUnit": {
+                "address": "0x02AD",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_ConcUnitBin": {
+                "address": "0x02AE",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_PD_Filter": {
+                "address": "0x02B2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_TIAGain_kOhm": {
+                "address": "0x02B4",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_PC_Config": {
+                "address": "0x03A2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_Config": {
+                "address": "0x0300",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_FW_Gain": {
+                "address": "0x0302",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "SPL_Temp_Zero": {
+                "address": "0x0304",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Tz": {
+                "address": "0x0306",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Tz2": {
+                "address": "0x0308",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Zero": {
+                "address": "0x030A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "SPL_Zero_trim": {
+                "address": "0x030C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Ts": {
+                "address": "0x030E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Ts2": {
+                "address": "0x0310",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Span": {
+                "address": "0x0312",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "SPL_Tc": {
+                "address": "0x0314",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Tc2": {
+                "address": "0x0316",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Curve": {
+                "address": "0x0318",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Tz3": {
+                "address": "0x031A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Ts3": {
+                "address": "0x031C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Tc3": {
+                "address": "0x031E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_ConcUnit": {
+                "address": "0x03AD",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_ConcUnitBin": {
+                "address": "0x03AE",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_PD_Filter": {
+                "address": "0x03B2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_TIAGain_kOhm": {
+                "address": "0x03B4",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_PC_Config": {
+                "address": "0x07A2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_Config": {
+                "address": "0x0700",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_FW_Gain": {
+                "address": "0x0702",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "MPL_Temp_Zero": {
+                "address": "0x0704",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Tz": {
+                "address": "0x0706",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Tz2": {
+                "address": "0x0708",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Zero": {
+                "address": "0x070A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "MPL_Zero_trim": {
+                "address": "0x070C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Ts": {
+                "address": "0x070E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Ts2": {
+                "address": "0x0710",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Span": {
+                "address": "0x0712",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "MPL_Tc": {
+                "address": "0x0714",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Tc2": {
+                "address": "0x0716",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Curve": {
+                "address": "0x0718",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Tz3": {
+                "address": "0x071A",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Ts3": {
+                "address": "0x071C",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Tc3": {
+                "address": "0x071E",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_ConcUnit": {
+                "address": "0x07AD",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_ConcUnitBin": {
+                "address": "0x07AE",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_PD_Filter": {
+                "address": "0x07B2",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_TIAGain_kOhm": {
+                "address": "0x07B4",
+                "data_length_bytes": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            }
+        },
+        "RAM_statuses": {
+            "V_EDAC_BURN": {
+                "address": "0x24",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "V_EDAC_MAIN": {
+                "address": "0x25",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "V_EDAC_Preheat": {
+                "address": "0x26",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MeterID": {
+                "address": "0x28",
+                "data_length_bytes": 4,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "TypeId": {
+                "address": "0x2C",
+                "data_length_bytes": 3,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "Map_Version": {
+                "address": "0x2F",
+                "data_length_bytes": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "Firmware_type": {
+                "address": "0x62",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "Revision_Main": {
+                "address": "0x63",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "Revision_Sub": {
+                "address": "0x64",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "Revision_Auxiliary": {
+                "address": "0x65",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            }
+        },
+        "Arduino_Statuses": {
+            "MSB Serial number": {
+                "address": "0x0100",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed",
+                "register_type": "IR"
+            },
+            "LSB Serial number": {
+                "address": "0x0102",
+                "data_length_bytes": 2,
+                "keep_in": "decimal",
+                "data_type": "signed",
+                "register_type": "IR"
+            },
+            "pid_airinlet_setpoint": {
+                "address": "0x0000",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_setpoint": {
+                "address": "0x0001",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airinlet_cfg.kp": {
+                "address": "0x0002",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airinlet_cfg.kp_scale": {
+                "address": "0x0003",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airinlet_cfg.ki": {
+                "address": "0x0004",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airinlet_cfg.ki_scale": {
+                "address": "0x0005",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_cfg.kp": {
+                "address": "0x0006",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_cfg.kp_scale": {
+                "address": "0x0007",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_cfg.ki": {
+                "address": "0x0008",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_cfg.ki_scale": {
+                "address": "0x0009",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airinlet_cfg.ctrl_reg": {
+                "address": "0x000A",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "pid_airvolume_cfg.ctrl_reg": {
+                "address": "0x000B",
+                "data_length_bytes": 1,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            }
+        }
+    },
+    "raw_data": {
+        "block_size": 64,
+        "start_register": "0x00",
+        "registers": {
+            "Synchro": {
+                "measurement": "Synchro",
+                "address": "0x1F",
+                "data_length_bytes": 1,
+                "human_readable_name": "Synchro Status (will be removed from UD)",
+                "units": "0-255",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "unsigned"
+            },
+            "ErrorStatus": {
+                "measurement": "ErrorStatus",
+                "address": "0x34",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 1,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MeterStatus": {
+                "measurement": "MeterStatus",
+                "address": "0x36",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B8",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 2,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "Heaters_ErrorStatus": {
+                "measurement": "Heaters_ErrorStatus",
+                "address": "0x37",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 3,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_uflt_Error": {
+                "measurement": "MPL_uflt_Error",
+                "address": "0x38E",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 4,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "MPL_uflt_SclRaw_Signal": {
+                "measurement": "MPL_uflt_SclRaw_Signal",
+                "address": "0x380",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_Signal_S32": {
+                "measurement": "MPL_Signal_S32",
+                "address": "0x360",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "MPL_uflt_ConcPC_S16": {
+                "measurement": "MPL_uflt_ConcPC_S16",
+                "address": "0x38C",
+                "data_length_bytes": 2,
+                "human_readable_name": "H2O concentration",
+                "units": "ppm",
+                "type": "meas",
+                "multiplier": 1,
+                "error_code": null,
+                "comment": "1 = 1ppm",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPLDet_Temp_Status": {
+                "measurement": "LPLDet_Temp_Status",
+                "address": "0x1A7",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B8",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_uflt_Error": {
+                "measurement": "LPL_uflt_Error",
+                "address": "0x40E",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 5,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "LPL_uflt_SclRaw_Signal": {
+                "measurement": "LPL_uflt_SclRaw_Signal",
+                "address": "0x400",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_Signal_S32": {
+                "measurement": "LPL_Signal_S32",
+                "address": "0x180",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "LPL_uflt_ConcPC_S16": {
+                "measurement": "LPL_uflt_ConcPC_S16",
+                "address": "0x40A",
+                "data_length_bytes": 2,
+                "human_readable_name": "N2O concentration",
+                "units": "ppm",
+                "type": "meas",
+                "multiplier": 0.01,
+                "error_code": null,
+                "comment": "1 = 0.01ppm",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPLDet_Temp_Status": {
+                "measurement": "SPLDet_Temp_Status",
+                "address": "0x1AF",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B8",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_uflt_Error": {
+                "measurement": "SPL_uflt_Error",
+                "address": "0x48E",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 6,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "SPL_uflt_SclRaw_Signal": {
+                "measurement": "SPL_uflt_SclRaw_Signal",
+                "address": "0x480",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_Signal_S32": {
+                "measurement": "SPL_Signal_S32",
+                "address": "0x190",
+                "data_length_bytes": 4,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S32",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPL_uflt_ConcPC_S16": {
+                "measurement": "SPL_uflt_ConcPC_S16",
+                "address": "0x48C",
+                "data_length_bytes": 2,
+                "human_readable_name": "CO2 concentration",
+                "units": "ppm",
+                "type": "meas",
+                "multiplier": 1,
+                "error_code": null,
+                "comment": "1 = 1ppm",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "ADuC_NTC0_Status": {
+                "measurement": "ADuC_NTC0_Status",
+                "address": "0x1BF",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B8",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "ADuC_NTC0_Temp": {
+                "measurement": "ADuC_NTC0_Temp",
+                "address": "0x1B8",
+                "data_length_bytes": 3,
+                "human_readable_name": "Detector Board Temperature NTC0",
+                "units": "S24",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "ADuC_NTC1_Status": {
+                "measurement": "ADuC_NTC1_Status",
+                "address": "0x1C7",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B8",
+                "type": "status",
+                "multiplier": 0,
+                "error_code": 7,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "ADuC_NTC1_Temp": {
+                "measurement": "ADuC_NTC1_Temp",
+                "address": "0x1C0",
+                "data_length_bytes": 3,
+                "human_readable_name": "Detector Board Temperature NTC1",
+                "units": "C",
+                "type": "meas",
+                "multiplier": 3.90625e-05,
+                "error_code": null,
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "P_Sensor0_10Pa": {
+                "measurement": "P_Sensor0_10Pa",
+                "address": "0x1D0",
+                "data_length_bytes": 2,
+                "human_readable_name": "Pressure by BME280",
+                "units": "Pa",
+                "type": "status",
+                "multiplier": 10,
+                "error_code": null,
+                "comment": "1 = 10Pa",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "RH": {
+                "measurement": "RH",
+                "address": "0x1F0",
+                "data_length_bytes": 2,
+                "human_readable_name": "Relative Humidity by BME280",
+                "units": "%RH",
+                "type": "status",
+                "multiplier": 0.01,
+                "error_code": null,
+                "comment": "100 = 1 %RH",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "RH_Sensor_Temp": {
+                "measurement": "RH_Sensor_Temp",
+                "address": "0x1F8",
+                "data_length_bytes": 2,
+                "human_readable_name": "Temperature by BME280",
+                "units": "C",
+                "type": "status",
+                "multiplier": 0.01,
+                "error_code": null,
+                "comment": "100 = 1 deg C",
+                "keep_in": "decimal",
+                "data_type": "signed"
+            },
+            "SPI_ErrorStatus": {
+                "measurement": "SPI ErrorStatus",
+                "address": "0x30",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            },
+            "Temperatures_ErrorStatus": {
+                "measurement": "Temperatures_ErrorStatus",
+                "address": "0x32",
+                "data_length_bytes": 2,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "B16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "hex",
+                "data_type": "unsigned"
+            }
+        },
+        "arduino_registers": {
+            "arduino_error_status": {
+                "measurement": "arduino_error_status",
+                "address": "0x0000",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "hex",
+                "data_type": "unsigned",
+                "register_type": "IR"
+            },
+            "ntc_airinlet_temp": {
+                "measurement": "ntc_airinlet_temp",
+                "address": "0x0001",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "signed",
+                "register_type": "IR"
+            },
+            "ntc_airvolume_temp": {
+                "measurement": "ntc_airvolume_temp",
+                "address": "0x0002",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "signed",
+                "register_type": "IR"
+            },
+            "pid_airinlet_output": {
+                "measurement": "pid_airinlet_output",
+                "address": "0x0003",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "U16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "unsigned",
+                "register_type": "IR"
+            },
+            "pid_airvolume_output": {
+                "measurement": "pid_airvolume_output",
+                "address": "0x0004",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "U16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "unsigned",
+                "register_type": "IR"
+            },
+            "synchro": {
+                "measurement": "synchro",
+                "address": "0x0005",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "U16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "unsigned",
+                "register_type": "IR"
+            },
+            "flags": {
+                "measurement": "flags",
+                "address": "0x0006",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "S16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "hex",
+                "data_type": "signed",
+                "register_type": "IR"
+            },
+            "flow": {
+                "measurement": "flow",
+                "address": "0x0007",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "U16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "unsigned",
+                "register_type": "IR"
+            },
+            "ntc_airambient_temp": {
+                "measurement": "ntc_airambient_temp",
+                "address": "0x0008",
+                "data_length_bytes": 1,
+                "human_readable_name": "Status (will be removed from UD)",
+                "units": "U16",
+                "type": "status",
+                "error_code": null,
+                "multiplier": 0,
+                "keep_in": "decimal",
+                "data_type": "signed",
+                "register_type": "IR"
+            }
+        }
+    }
+}

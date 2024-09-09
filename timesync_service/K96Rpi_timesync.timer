@@ -1,0 +1,10 @@
+[Unit]
+Description=K96Rpi Time Sync Timer
+After=network.target
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

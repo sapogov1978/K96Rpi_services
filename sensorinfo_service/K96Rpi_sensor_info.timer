@@ -1,0 +1,10 @@
+[Unit]
+Description=K96Rpi Sensor Info Service Timer
+After=network.target
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
