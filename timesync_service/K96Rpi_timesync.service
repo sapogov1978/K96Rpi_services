@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/python3 /home/pi/K96Rpi/timesync.service/K96Rpi_time_sync.py
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/timesync_service/K96Rpi_time_sync.py
 Restart=always
 RestartSec=15
 User=pi

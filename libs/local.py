@@ -2,8 +2,30 @@ import logging
 import os
 import json
 import time
+from ping3 import ping, verbose_ping
 
 os.chdir("/home/pi/K96Rpi")
+
+#------------------------------------------------------------------------------
+def check_server_response(host):
+    """
+    This function sends a ping request to the specified host and waits for a response.
+    It uses the `ping` function with a timeout of 10 milliseconds.
+
+    Args:
+        host (str): The IP address or hostname of the server to ping.
+
+    Returns:
+        bool: True if the server responds within the timeout, False otherwise.
+    """
+    try:
+        response_time = ping(host, unit='ms', size=32, timeout=10)
+        if response_time is None or response_time is False:
+            return False
+        return True
+    except Exception as e:
+        return False
+#------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 def save_settings(settings):

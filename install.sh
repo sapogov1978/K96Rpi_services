@@ -41,6 +41,14 @@ sudo systemctl enable K96Rpi_timesync.timer
 echo -e "\033[1;32mK96Rpi timesync service installed and enabled.\033[0m"
 
 #install data push service
+echo -e "\033[1;33mInstalling K96Rpi data push service...\033[0m"
+sudo systemctl stop K96Rpi_datapush.service
+sudo systemctl disable K96Rpi_datapush.service
+sudo rm -f /etc/systemd/system/K96Rpi_datapush.*
+sudo cp -f datapush_service/K96Rpi_datapush.* /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable K96Rpi_datapush.service
+echo -e "\033[1;32mK96Rpi datapush service installed and enabled.\033[0m"
 
 #install file system management service
 echo -e "\033[1;33mInstalling K96Rpi file system management service...\033[0m"

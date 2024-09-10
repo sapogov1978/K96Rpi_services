@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/python3 /home/pi/K96Rpi/fsm.service/K96Rpi_fsm.py
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/fsm_service/K96Rpi_fsm.py
 Restart=always
 RestartSec=15
 User=pi

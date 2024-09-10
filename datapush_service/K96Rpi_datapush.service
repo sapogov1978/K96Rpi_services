@@ -1,0 +1,15 @@
+[Unit]
+Description=K96Rpi Data Push-to-server Service
+Requires=K96Rpi_fsm.service K96Rpi_datacollection.service K96Rpi_datacalculation.service
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/datapush_service/K96Rpi_datapush.py
+Restart=always
+RestartSec=15
+User=pi
+WorkingDirectory=/home/pi/K96Rpi/
+
+[Install]
+WantedBy=multi-user.target

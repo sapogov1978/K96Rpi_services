@@ -47,7 +47,7 @@
         "port": 22,
         "username": "suez_data_crawler",
         "password": "test1221",
-        "data_push_step": 15,
+        "data_push_step": 1,
         "upload_all_data": 0,
         "remote_directories": {
             "remote_raw_data": "c:/SUEZ_collected_data/",
