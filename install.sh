@@ -66,7 +66,17 @@ echo -e "\033[1;32mK96Rpi file system management service installed and enabled.\
 
 #install data calculation service
 
-#install box monitoring service 
+#install box monitoring service
+echo -e "\033[1;33mInstalling K96Rpi hardware monitoring service...\033[0m"
+sudo systemctl stop K96Rpi_hwmonitor.timer
+sudo systemctl stop K96Rpi_hwmonitor.service
+sudo systemctl disable K96Rpi_hwmonitor.timer
+sudo systemctl disable K96Rpi_hwmonitor.service
+sudo rm -f /etc/systemd/system/K96Rpi_hwmonitor.*
+sudo cp -f hwmonitor_service/K96Rpi_hwmonitor.* /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable K96Rpi_hwmonitor.timer
+echo -e "\033[1;32mK96Rpi hardware monitoring service installed and enabled.\033[0m"
 
 #restart the box
 echo -e "\033[1;33mReloading systemd daemon...\033[0m"

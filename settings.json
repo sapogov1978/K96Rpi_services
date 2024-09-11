@@ -5,6 +5,7 @@
     "last_known_date": 20240909,
     "daily_routeen_complete": 1,
     "overheat": false,
+    "occlusion_detected": false,
     "heater_base_value": "0x0023",
     "heater_ref_address": "0x54",
     "heater_ctl_address": "0x50",

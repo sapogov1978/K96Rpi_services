@@ -1,0 +1,14 @@
+[Unit]
+Description=K96Rpi Hardware Monitor Service
+Requires=K96Rpi_hwmonitor.timer
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/hwmonitor_service/K96Rpi_hwmonitor.py
+Restart=always
+RestartSec=15
+User=pi
+WorkingDirectory=/home/pi/K96Rpi/
+
+[Install]
+WantedBy=multi-user.target

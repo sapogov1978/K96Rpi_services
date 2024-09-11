@@ -1,12 +1,8 @@
-#import logging
-from ping3 import ping, verbose_ping
-#import json
 import sys
 import os
 import pytz
 import subprocess
 import datetime
-#import time
 import signal
 
 os.chdir("/home/pi/K96Rpi")
@@ -23,29 +19,6 @@ signal.signal(signal.SIGTERM, sigterm_handler)
 #------------------------------------------------------------------------------
 
 logger = ll.setup_logger("time_sync.log")
-
-#------------------------------------------------------------------------------
-def check_server_response(host):
-    """
-    This function sends a ping request to the specified host and waits for a response.
-    It uses the `ping` function with a timeout of 10 milliseconds.
-
-    Args:
-        host (str): The IP address or hostname of the server to ping.
-
-    Returns:
-        bool: True if the server responds within the timeout, False otherwise.
-    """
-    try:
-        response_time = ping(host, unit='ms', size=32, timeout=10)
-        if response_time is None or response_time is False:
-            logger.warning(f"TIMESYNC: Server not answering")
-            return False
-        return True
-    except Exception as e:
-        logger.warning(f"TIMESYNC: Server communication error: {e}")
-        return False
-#------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 def update_RTC_time(settings, comm_port, server_datetime_24h, arduino_address, time_register_address):
@@ -134,15 +107,21 @@ def synchronize_time(settings, comm_port):
     host = settings.get('server').get('host')
     #t_zone = settings.get('timezone')
 
-    serverIsAlive = check_server_response(host)
+    serverIsAlive = ll.check_server_response(host)
+    if not serverIsAlive:
+        logger.warning("TIMESYNC: Server is not answering")
 
     if serverIsAlive:
+        logger.info("TIMESYNC: Timesource - server")
         synchronized_time = sync_with_server(settings, host)
         if synchronized_time is not None:
             update_RTC_time(settings, comm_port, synchronized_time, arduino_address, time_register_address)
+            logger.info("TIMESYNC: Arduino RTC time updated")
         else:
+            logger.info("TIMESYNC: Timesource - arduino RTC")
             synchronized_time = sync_with_RTC(settings, comm_port, arduino_address, time_register_address)
     else:
+        logger.info("TIMESYNC: Timesource - arduino RTC")
         synchronized_time = sync_with_RTC(settings, comm_port, arduino_address, time_register_address)
     
     if synchronized_time is not None:

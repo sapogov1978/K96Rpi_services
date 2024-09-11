@@ -1,5 +1,5 @@
 [Unit]
-Description=K96Rpi File System Management Service
+Description=K96Rpi Time Sync Service
 Requires=K96Rpi_timesync.timer
 After=network.target
 
