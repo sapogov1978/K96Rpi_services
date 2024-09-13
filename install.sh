@@ -1,5 +1,16 @@
 #!/bin/bash
 
+#install python modules to root and user env
+for file in modules/*.whl modules/*.tar.gz modules/*.zip; do
+    pip3 install "$file"
+done
+
+pip install --no-index --find-links ./modules *.whl
+pip install --no-index --find-links ./modules *.tar.gz
+sudo pip install --no-index --find-links ./modules *.whl
+sudo pip install --no-index --find-links ./modules *.tar.gz
+
+#make default path to env
 LINE="export PYTHONPATH=$HOME/K96Rpi"
 FILE="$HOME/.bashrc"
 if grep -Fxq "$LINE" "$FILE"
@@ -9,9 +20,12 @@ else
     echo "$LINE" >> "$FILE"
     echo "PYTHONPATH path added to $FILE"
 fi
-
 source "$FILE"
 
+#delete recources lock files if any
+sudo rm -f /home/pi/K96Rpi/locks/*
+
+#stop and delete debian timesync service
 sudo systemctl stop systemd-timesyncd.service 
 sudo systemctl disable systemd-timesyncd.service
 sudo systemctl daemon-reload
@@ -25,7 +39,7 @@ sudo systemctl disable K96Rpi_sensor_info.service
 sudo rm -f /etc/systemd/system/K96Rpi_sensor_info.*
 sudo cp -f sensorinfo_service/K96Rpi_sensor_info.* /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable K96Rpi_sensor_info.timer
+sudo systemctl enable --now K96Rpi_sensor_info.timer
 echo -e "\033[1;32mK96Rpi sensor info service installed and enabled.\033[0m"
 
 #install time synchronization service
@@ -37,7 +51,7 @@ sudo systemctl disable K96Rpi_timesync.service
 sudo rm -f /etc/systemd/system/K96Rpi_timesync.*
 sudo cp -f timesync_service/K96Rpi_timesync.* /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable K96Rpi_timesync.timer
+sudo systemctl enable --now K96Rpi_timesync.timer
 echo -e "\033[1;32mK96Rpi timesync service installed and enabled.\033[0m"
 
 #install data push service
@@ -45,9 +59,9 @@ echo -e "\033[1;33mInstalling K96Rpi data push service...\033[0m"
 sudo systemctl stop K96Rpi_datapush.service
 sudo systemctl disable K96Rpi_datapush.service
 sudo rm -f /etc/systemd/system/K96Rpi_datapush.*
-sudo cp -f datapush_service/K96Rpi_datapush.* /etc/systemd/system/
+sudo cp -f datapush_service/K96Rpi_datapush.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable K96Rpi_datapush.service
+sudo systemctl enable --now K96Rpi_datapush.service
 echo -e "\033[1;32mK96Rpi datapush service installed and enabled.\033[0m"
 
 #install file system management service
@@ -59,12 +73,8 @@ sudo systemctl disable K96Rpi_fsm.service
 sudo rm -f /etc/systemd/system/K96Rpi_fsm.*
 sudo cp -f fsm_service/K96Rpi_fsm.* /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable K96Rpi_fsm.timer
+sudo systemctl enable --now K96Rpi_fsm.timer
 echo -e "\033[1;32mK96Rpi file system management service installed and enabled.\033[0m"
-
-#install data collection service
-
-#install data calculation service
 
 #install box monitoring service
 echo -e "\033[1;33mInstalling K96Rpi hardware monitoring service...\033[0m"
@@ -75,8 +85,25 @@ sudo systemctl disable K96Rpi_hwmonitor.service
 sudo rm -f /etc/systemd/system/K96Rpi_hwmonitor.*
 sudo cp -f hwmonitor_service/K96Rpi_hwmonitor.* /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable K96Rpi_hwmonitor.timer
+sudo systemctl enable --now K96Rpi_hwmonitor.timer
 echo -e "\033[1;32mK96Rpi hardware monitoring service installed and enabled.\033[0m"
+
+#install data collection service
+echo -e "\033[1;33mInstalling K96Rpi data collection service...\033[0m"
+sudo systemctl stop K96Rpi_datacollection.service
+sudo systemctl disable K96Rpi_datacollection.service
+sudo rm -f /etc/systemd/system/K96Rpi_datacollection.*
+sudo cp -f datacollection_service/K96Rpi_datacollection.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now K96Rpi_datacollection.service
+echo -e "\033[1;32mK96Rpi data collection service installed and enabled.\033[0m"
+
+
+#install data calculation service
+
+#install automatic update service
+
+#install serial port listener service
 
 #restart the box
 echo -e "\033[1;33mReloading systemd daemon...\033[0m"

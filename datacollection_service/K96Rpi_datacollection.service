@@ -1,0 +1,14 @@
+[Unit]
+Description=K96Rpi Raw Data Collection Service
+Requires=K96Rpi_fsm.timer
+After=network.target K96Rpi_fsm.service
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/datacollection_service/K96Rpi_datacollection.py
+Restart=always
+RestartSec=15
+WorkingDirectory=/home/pi/K96Rpi/
+User=pi
+
+[Install]
+WantedBy=multi-user.target

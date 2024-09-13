@@ -6,10 +6,8 @@ After=network.target
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/K96Rpi/fsm_service/K96Rpi_fsm.py
-Restart=always
-RestartSec=15
-User=pi
 WorkingDirectory=/home/pi/K96Rpi/
+User=pi
 
 [Install]
 WantedBy=multi-user.target

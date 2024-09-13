@@ -1,13 +1,11 @@
 import datetime
 import platform
 import subprocess
-#import serial
-#import logging
-#import json
 import os
-#import time
 import sys
 import signal
+
+from datetime import datetime
 
 os.chdir("/home/pi/K96Rpi")
 sys.path.append("/home/pi/K96Rpi")
@@ -15,12 +13,20 @@ sys.path.append("/home/pi/K96Rpi")
 import libs.sensor_data_exchange as sde
 import libs.local as ll
 
+#------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'SENSOR INFO SERVICE: Sigterm recieved:\n {signum}\n {frame}')
 
 signal.signal(signal.SIGTERM, sigterm_handler)
+#------------------------------------------------------------------------------
 
-logger = ll.setup_logger("sensor_info.log")
+files = [f for f in os.listdir('locks') if f.endswith('-sensorinfo.lock')]
+for file in files:
+    file_path = os.path.join('locks', file)
+    os.remove(file_path)
+
+current_date = datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-sensor_info.log")
 
 #------------------------------------------------------------------------------
 def get_sensor_info(settings, comm_port):
@@ -188,30 +194,29 @@ def get_sensor_info(settings, comm_port):
         pass
 #------------------------------------------------------------------------------
 
+#------------------------------------------------------------------------------
 def main():
-    
+    comm_port = None
     settings = ll.load_settings()
     if settings is None:
         logger.critical('SENSOR_INFO: Settings file cannot be read.')
         sys.exit(1)
     
-    ll.acquire_lock("port")
-    logger.info("SENSOR_INFO: Port locked")
-
-    comm_port = None
-    
     try:
+        ll.acquire_lock("port", "sensorinfo")
         comm_port = sde.open_port(settings)
         get_sensor_info(settings, comm_port)
-        
+        if comm_port is not None:
+            comm_port.close()
+            comm_port = None
+        ll.release_lock("port", "sensorinfo")
+
     except Exception as e:
         logger.critical(f"SENSOR_INFO: An error occurred: {str(e)}")
 
     finally:
-        if comm_port is not None:
-            comm_port.close()
-        ll.release_lock("port")
-        logger.info("SENSOR_INFO: Port released")
+        ll.release_lock("port", "sensorinfo")
+#------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()

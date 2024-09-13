@@ -23,7 +23,7 @@ def check_server_response(host):
         if response_time is None or response_time is False:
             return False
         return True
-    except Exception as e:
+    except Exception:
         return False
 #------------------------------------------------------------------------------
 
@@ -44,10 +44,10 @@ def save_settings(settings):
     """
     
     try:
-        acquire_lock("settings")
+        acquire_lock("settings", "local_lib")
         with open('settings.json', 'w') as settings_file:
             json.dump(settings, settings_file, indent=4)
-        release_lock("settings")
+        release_lock("settings", "local_lib")
         return 0
         
     except FileNotFoundError as e:
@@ -104,14 +104,20 @@ def load_settings():
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
-def acquire_lock(res_lock_file):
-    while os.path.exists(f"locks/{res_lock_file}.lock"):
+def acquire_lock(res_lock_file, service):
+    lock_file_pattern = f"locks/{res_lock_file}"
+    lock_file_path = f"locks/{res_lock_file}-{service}.lock"
+
+    while True:
+        files = [f for f in os.listdir('locks') if f.startswith(res_lock_file) and f.endswith('.lock')]
+        if not files:
+            open(lock_file_path, 'w').close()
+            break
         time.sleep(0.1)
-    open(f"locks/{res_lock_file}.lock", 'w').close()
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
-def release_lock(res_lock_file):
-    if os.path.exists(f"locks/{res_lock_file}.lock"):
-        os.remove(f"locks/{res_lock_file}.lock")
+def release_lock(res_lock_file, service):
+    if os.path.exists(f"locks/{res_lock_file}-{service}.lock"):
+        os.remove(f"locks/{res_lock_file}-{service}.lock")
 #------------------------------------------------------------------------------

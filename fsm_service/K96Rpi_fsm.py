@@ -14,12 +14,20 @@ sys.path.append("/home/pi/K96Rpi")
 import libs.sensor_data_exchange as sde
 import libs.local as ll
 
+#------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'FSM SERVICE: Sigterm recieved:\n {signum}\n {frame}')
 
 signal.signal(signal.SIGTERM, sigterm_handler)
+#------------------------------------------------------------------------------
 
-logger = ll.setup_logger("fsm.log")
+files = [f for f in os.listdir('locks') if f.endswith('-fsm.lock')]
+for file in files:
+    file_path = os.path.join('locks', file)
+    os.remove(file_path)
+
+current_date = datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-fsm.log")
 
 #------------------------------------------------------------------------------
 def check_disk_space(directory):
@@ -166,7 +174,7 @@ def write_header_to_raw_data_csv(csv_filename, registers, arduino_registers):
         measurement_name = register_data.get("measurement")
         header.append(measurement_name)
     
-    ll.acquire_lock("rawdata")
+    ll.acquire_lock("rawdata", "fsm")
     try:
         # Check if the file exists and if it is empty
         file_exists = os.path.exists(csv_filename)
@@ -177,13 +185,13 @@ def write_header_to_raw_data_csv(csv_filename, registers, arduino_registers):
             with open(csv_filename, 'a', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_NONE)
                 csv_writer.writerow(header)
-        ll.release_lock("rawdata")
+        ll.release_lock("rawdata", "fsm")
     
     except Exception as e:
         logger.error(f"FSM(write_header_to_csv): Error writing Raw Data CSV header: {str(e)}")
         pass
     finally:
-        ll.release_lock("rawdata")
+        ll.release_lock("rawdata", "fsm")
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
@@ -252,7 +260,7 @@ def write_header_to_user_data_csv(settings, csv_filename, registers):
     header2.append("Alarme")
     header3.append("Num")
 
-    ll.acquire_lock("userdata")
+    ll.acquire_lock("userdata", "fsm")
     try:
         # Check if the file exists and if it is empty
         file_exists = os.path.exists(csv_filename)
@@ -270,7 +278,7 @@ def write_header_to_user_data_csv(settings, csv_filename, registers):
         logger.error(f"FSM(write_header_to_csv): Error writing User Data CSV header: {str(e)}")
         pass
     finally:
-        ll.release_lock("userdata")
+        ll.release_lock("userdata", "fsm")
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
@@ -301,7 +309,7 @@ def run_fsm(settings):
     function = box_settings.get('modbus_functions').get('READ_EPROM')
     
     sensor_id = 0
-    ll.acquire_lock("port")
+    ll.acquire_lock("port", "fsm")
     comm_port = sde.open_port(settings)
     if comm_port is not None:
         sensor_id_raw = sde.data_exchange(settings, comm_port, sensor_address, function, sensor_id_address, 4)
@@ -314,7 +322,7 @@ def run_fsm(settings):
     else:
         logger.critical("FSM: Cannot get sensor ID, comm port not opened")
         settings['box']['sensor_id'] = sensor_id
-    ll.release_lock("port")
+    ll.release_lock("port", "fsm")
     
 
     loc_string = platform.node()
@@ -355,17 +363,13 @@ def run_fsm(settings):
         registers = settings.get('raw_data').get('registers')
         arduino_registers = settings.get('raw_data').get('arduino_registers')
         if not registers or not arduino_registers:
-            logger.fatal("FSM: No raw data registers specified in the settings")
-            #exit.exodus(settings)
+            logger.critical("FSM: No raw data registers specified in the settings")
 
         write_header_to_raw_data_csv(raw_data_file, registers, arduino_registers)
         write_header_to_user_data_csv(settings, user_data_file, registers)
         
-#    except (OSError, serial.SerialException):
-#        raise
     except Exception as e:
-        logger.fatal(f"FSM: An error occurred in run_fsm: {str(e)}")
-        # exit.exodus(settings)
+        logger.critical(f"FSM: An error occurred in run_fsm: {str(e)}")
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
@@ -382,8 +386,6 @@ def main():
     settings = ll.load_settings()
     try:
         run_fsm(settings)
-        #log_file = settings.get('local_files').get('logs')
-        #setup_logger(log_file)
         settings['last_known_date'] = int(datetime.now().strftime('%Y%m%d'))
         settings['daily_routeen_complete'] = 1
         save_settings = ll.save_settings(settings)
@@ -397,9 +399,8 @@ def main():
         
     except Exception as e:
         logger.fatal(f"FSM(fsm_routeen): Error occurred in fsm.py: {str(e)}")
-        #exit.exodus(settings)
     finally:
-        ll.release_lock("port")
+        ll.release_lock("port", "fsm")
 #------------------------------------------------------------------------------
 
 if __name__ == "__main__":

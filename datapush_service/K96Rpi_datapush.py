@@ -3,6 +3,7 @@ import os
 import sys
 import signal
 import subprocess
+from datetime import datetime
 
 os.chdir("/home/pi/K96Rpi")
 sys.path.append("/home/pi/K96Rpi")
@@ -15,8 +16,14 @@ def sigterm_handler(signum, frame):
 
 signal.signal(signal.SIGTERM, sigterm_handler)
 
-logger = ll.setup_logger("datapush.log")
+current_date = datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-datapush.log")
 #------------------------------------------------------------------------------
+
+files = [f for f in os.listdir('locks') if f.endswith('-datapush.lock')]
+for file in files:
+    file_path = os.path.join('locks', file)
+    os.remove(file_path)
 
 #------------------------------------------------------------------------------
 def check_required_settings(settings):
@@ -138,15 +145,7 @@ def push_data(settings):
         return True
 #------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
+#------------------------------------------------------------------------------
 def main():
     try:
         settings = ll.load_settings()
@@ -174,6 +173,7 @@ def main():
             
     except Exception as e:
         logger.critical(f'DATAPUSH: Unknown error. {e}')
+#------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()

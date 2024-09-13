@@ -18,7 +18,13 @@ def sigterm_handler(signum, frame):
 signal.signal(signal.SIGTERM, sigterm_handler)
 #------------------------------------------------------------------------------
 
-logger = ll.setup_logger("time_sync.log")
+files = [f for f in os.listdir('locks') if f.endswith('-timesync.lock')]
+for file in files:
+    file_path = os.path.join('locks', file)
+    os.remove(file_path)
+
+current_date = datetime.datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-time_sync.log")
 
 #------------------------------------------------------------------------------
 def update_RTC_time(settings, comm_port, server_datetime_24h, arduino_address, time_register_address):
@@ -140,7 +146,7 @@ def synchronize_time(settings, comm_port):
         return None
 #------------------------------------------------------------------------------
 
-
+#------------------------------------------------------------------------------
 def main():
     comm_port = None
     try:
@@ -149,22 +155,23 @@ def main():
             logger.critical('TIMESYNC: Settings file corrupted.')
             sys.exit(1)
         
-        ll.acquire_lock("port")
-        logger.info("TIMESYNC: Port locked")
+        ll.acquire_lock("port", "timesync")
         comm_port = sde.open_port(settings)
-    
-        time_sync_complete = synchronize_time(settings, comm_port)
-        if not time_sync_complete:
-            logger.critical('TIMESYNC: Cannot sync the time.')
+        if comm_port is not None:
+            time_sync_complete = synchronize_time(settings, comm_port)
+            if not time_sync_complete:
+                logger.critical('TIMESYNC: Cannot sync the time.')
+            else:
+                logger.info("TIMESYNC: Time synchronization completed successfully.")
+            comm_port.close()
+            comm_port = None
         else:
-            logger.info("TIMESYNC: Time synchronization completed successfully.")
+            logger.critical('TIMESYNC: Finised with error. Port not open')
+        ll.release_lock("port", "timesync")
+
     except Exception as e:
         logger.critical(f'TIMESYNC: Unknown error. {e}')
-    finally:
-        if comm_port is not None:
-            comm_port.close()
-        ll.release_lock("port")
-        logger.info("TIMESYNC: Port released")
+#------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()

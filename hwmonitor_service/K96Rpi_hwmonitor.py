@@ -3,18 +3,28 @@ import sys
 import signal
 import RPi.GPIO as GPIO
 
+from datetime import datetime
+
 os.chdir("/home/pi/K96Rpi")
 sys.path.append("/home/pi/K96Rpi")
 
 import libs.sensor_data_exchange as sde
 import libs.local as ll
 
+#------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
-    logger.critical(f'FSM SERVICE: Sigterm recieved:\n {signum}\n {frame}')
+    logger.critical(f'HW MONITOR SERVICE: Sigterm recieved:\n {signum}\n {frame}')
 
 signal.signal(signal.SIGTERM, sigterm_handler)
+#------------------------------------------------------------------------------
 
-logger = ll.setup_logger("hw_monitor.log")
+files = [f for f in os.listdir('locks') if f.endswith('-hwm.lock')]
+for file in files:
+    file_path = os.path.join('locks', file)
+    os.remove(file_path)
+
+current_date = datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-hw_monitor.log")
 
 #------------------------------------------------------------------------------
 def turn_fan(state):
@@ -67,13 +77,16 @@ def check_temperature(settings):
     address = settings.get('box').get('arduino_address')
     function = settings.get('box').get('modbus_functions').get('READ_MULTIPLE_IR')
     register = settings.get('raw_data').get('arduino_registers').get('ntc_airambient_temp').get('address')
+    comm_port = None
     
     # Read raw temperature data from the sensor box
-    ll.acquire_lock("port")
+    ll.acquire_lock("port", "hwm")
     comm_port = sde.open_port(settings)
     if comm_port is not None:
         raw_temperature = sde.data_exchange(settings, comm_port, address, function, register, 1)
-        ll.release_lock("port")
+        comm_port.close()
+        comm_port = None
+        ll.release_lock("port", "hwm")
         # Convert raw temperature data to a meaningful temperature value
         if raw_temperature is not None:
             temp_temperature = raw_temperature[3:-2]
@@ -88,29 +101,27 @@ def check_temperature(settings):
             return 0
     else:
         logger.error("HW_MONITOR: Temperature cannot be measured, comm port not opened")
-        ll.release_lock("port")
+        ll.release_lock("port", "hwm")
         return 0
 #------------------------------------------------------------------------------
 
-
-
+#------------------------------------------------------------------------------
 def main():
     settings = ll.load_settings()
     if settings is None:
         logger.critical('HW_MONITOR: Settings file corrupted.')
         sys.exit(1)
     try:
-        ll.acquire_lock("port")
+        ll.acquire_lock("port", "hwm")
         comm_port = sde.open_port(settings)
         if comm_port is not None:
             sde.data_exchange(settings, comm_port, settings['box']['arduino_address'], settings['box']['modbus_functions']['WRITE_SINGLE_HR'], settings['pid1_setpoint_address'], 2, settings['pid1_base_value']) 
             comm_port.close()
-            ll.release_lock("port")
             comm_port = None
         else:
-            ll.release_lock("port")
             logger.warning("HW_MONITOR: Unable to write base value for PID setpoint. Port not opened")
-    
+        ll.release_lock("port", "hwm")
+
         overheat = check_temperature(settings)
         if (overheat == 1):
             settings['overheat'] = True
@@ -130,13 +141,13 @@ def main():
         heater_ref_address = settings.get("heater_ref_address")
         function = settings.get('box').get('modbus_functions').get('READ_RAM')
         
-        ll.acquire_lock("port")
+        ll.acquire_lock("port", "hwm")
         comm_port = sde.open_port(settings)
         if comm_port is not None:
             raw_response = sde.data_exchange(settings, comm_port, sensor_address, function, heater_ref_address, 2)
             comm_port.close()
-            ll.release_lock("port")
             comm_port = None
+            ll.release_lock("port", "hwm")
 
             if raw_response is not None:
                 trunc_response = raw_response[3:-2]
@@ -148,24 +159,21 @@ def main():
             else:
                 logger.info("HW_MONITOR: Sensor not answering")
         else:
-            ll.release_lock("port")
+            ll.release_lock("port", "hwm")
             logger.warning("HW_MONITOR: Unable to read Heater0 values. Port not opened")
-            
-        #-------------------------------------------------
             
         #getting pid value from Arduino        
         pid1_output_address = settings.get("pid1_output_address")
     
         function = settings.get('box').get('modbus_functions').get('READ_MULTIPLE_IR')
-
         
-        ll.acquire_lock("port")
+        ll.acquire_lock("port", "hwm")
         comm_port = sde.open_port(settings)
         if comm_port is not None:
             raw_response = sde.data_exchange(settings, comm_port, arduino_address, function, pid1_output_address, 1)
             comm_port.close()
-            ll.release_lock("port")
             comm_port = None
+            ll.release_lock("port", "hwm")
         
             if raw_response is not None:
                 trunc_response = raw_response[3:-2]
@@ -177,13 +185,13 @@ def main():
             else:
                 logger.info("HW_MONITOR: Sensor not answering")
         else:
-            ll.release_lock("port")
+            ll.release_lock("port", "hwm")
             logger.warning("HW_MONITOR: Unable to read PID values. Port not opened")
                     
                     
         if (pid1_value > 252):
             logger.critical("HW_MONITOR: Pump is overloaded")
-            ll.acquire_lock("port")
+            ll.acquire_lock("port", "hwm")
             comm_port = sde.open_port(settings)
             if comm_port is not None:
                 sde.data_exchange(settings, comm_port, settings['box']['sensor_address'], settings['box']['modbus_functions']['WRITE_RAM'], settings['heater_ctl_address'], 2, "0x0")
@@ -191,16 +199,14 @@ def main():
                 comm_port.close()
             else:
                 logger.warning("HW_MONITOR: Unable turn off pump and heater. Port not opened")
-            ll.release_lock("port")
+            ll.release_lock("port", "hwm")
             comm_port = None
             settings["occlusion_detected"] = True
             ll.save_settings(settings)
-
-            
         
         if (pid1_value == 0):
             logger.critical("HW_MONITOR: Pump is OFF, attempt to restart")
-            ll.acquire_lock("port")
+            ll.acquire_lock("port", "hwm")
             comm_port = sde.open_port(settings)
             if comm_port is not None:
                 sde.data_exchange(settings, comm_port, settings['box']['arduino_address'], settings['box']['modbus_functions']['WRITE_SINGLE_HR'], settings['pid1_setpoint_address'], 2, settings['pid1_base_value'])
@@ -209,14 +215,16 @@ def main():
                 comm_port.close()
             else:
                 logger.warning("HW_MONITOR: Unable ыефке pump and heater. Port not opened")
-            ll.release_lock("port")
+            ll.release_lock("port", "hwm")
             comm_port = None
             settings["occlusion_detected"] = False
             ll.save_settings(settings)
     
     except Exception as e:
-        ll.release_lock("port")
-
+        logger.critical(f"HW MONITOR: {e}")
+    finally:
+        ll.release_lock("port", "hwm")
+#------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     main()

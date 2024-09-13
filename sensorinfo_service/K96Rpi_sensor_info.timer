@@ -1,6 +1,6 @@
 [Unit]
 Description=K96Rpi Sensor Info Service Timer
-After=network.target
+After=network.target K96Rpi_fsm.service
 
 [Timer]
 OnCalendar=daily

@@ -6,10 +6,8 @@ After=network.target K96Rpi_fsm.service
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/K96Rpi/sensorinfo_service/K96Rpi_sensor_info.py
-Restart=always
-RestartSec=15
-User=pi
 WorkingDirectory=/home/pi/K96Rpi/
+User=pi
 
 [Install]
 WantedBy=multi-user.target
