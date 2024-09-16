@@ -68,6 +68,14 @@
         "sensor_data": "data/raw_data/20240910_K96Rpi-microservices-test_0_sensor_data.txt",
         "user_data": "data/user_data/NPC_K96Rpi-microservices-test_BOX0_1_20240910202230_2020.csv"
     },
+    "update" : {
+        "update_server_ip": "192.168.88.254", 
+        "update_remote_folder": "c:\\SUEZ_collected_data\\updates\\", 
+        "update_local_folder": "/home/pi/K96Rpi/updates/", 
+        "last_installed_update": "20240825", 
+        "username": "suez_data_crawler", 
+        "password": "test1221"
+    },
     "sensor_info": {
         "Integrated_Box_Type_ID": "",
         "Integrated_Box_ID": "0123456789",

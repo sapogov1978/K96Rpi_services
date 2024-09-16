@@ -1,0 +1,13 @@
+[Unit]
+Description=K96Rpi Software Update Service
+Requires=K96Rpi_update.timer
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/softwareupdate_service/K96Rpi_swupdate.py
+User=pi
+WorkingDirectory=/home/pi/K96Rpi/
+
+[Install]
+WantedBy=multi-user.target

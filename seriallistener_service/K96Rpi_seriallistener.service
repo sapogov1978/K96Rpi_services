@@ -1,0 +1,12 @@
+[Unit]
+Description=K96Rpi Calibration Switch Detector
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/seriallistener_service/K96Rpi_seriallistener.py
+Restart=always
+WorkingDirectory=/home/pi/K96Rpi/
+User=pi
+
+[Install]
+WantedBy=multi-user.target
