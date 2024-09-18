@@ -1,0 +1,12 @@
+[Unit]
+Description=K96Rpi USB Manager Service
+Requires=K96Rpi_usb_manager.timer
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/pi/K96Rpi/usb_service/K96Rpi_usb_manager.py
+User=pi
+WorkingDirectory=/home/pi/K96Rpi/
+
+[Install]
+WantedBy=multi-user.target

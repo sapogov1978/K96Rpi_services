@@ -304,25 +304,25 @@ def run_fsm(settings):
     user_data_dir = folder_settings.get('user_data')
     
     box_settings = settings.get('box')
-    sensor_address = box_settings.get('sensor_address')
-    sensor_id_address = box_settings.get('sensor_id_addrss')
-    function = box_settings.get('modbus_functions').get('READ_EPROM')
+    # sensor_address = box_settings.get('sensor_address')
+    # sensor_id_address = box_settings.get('sensor_id_address')
+    # function = box_settings.get('modbus_functions').get('READ_EPROM')
     
-    sensor_id = 0
-    ll.acquire_lock("port", "fsm")
-    comm_port = sde.open_port(settings)
-    if comm_port is not None:
-        sensor_id_raw = sde.data_exchange(settings, comm_port, sensor_address, function, sensor_id_address, 4)
-        if sensor_id_raw is not None:
-            sensor_id = sensor_id_raw[3:-2]
-            if sensor_id is not None:
-                sensor_id = int.from_bytes(sensor_id, byteorder='big', signed=False)
-                settings['box']['sensor_id'] = sensor_id
-        comm_port.close()
-    else:
-        logger.critical("FSM: Cannot get sensor ID, comm port not opened")
-        settings['box']['sensor_id'] = sensor_id
-    ll.release_lock("port", "fsm")
+    sensor_id = box_settings.get('sensor_id')
+    # ll.acquire_lock("port", "fsm")
+    # comm_port = sde.open_port(settings)
+    # if comm_port is not None:
+    #     sensor_id_raw = sde.data_exchange(settings, comm_port, sensor_address, function, sensor_id_address, 4)
+    #     if sensor_id_raw is not None:
+    #         sensor_id = sensor_id_raw[3:-2]
+    #         if sensor_id is not None:
+    #             sensor_id = int.from_bytes(sensor_id, byteorder='big', signed=False)
+    #             settings['box']['sensor_id'] = sensor_id
+    #     comm_port.close()
+    # else:
+    #     logger.critical("FSM: Cannot get sensor ID, comm port not opened")
+    #     settings['box']['sensor_id'] = sensor_id
+    # ll.release_lock("port", "fsm")
     
 
     loc_string = platform.node()

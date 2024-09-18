@@ -4,10 +4,8 @@ Requires=K96Rpi_timesync.timer
 After=network.target
 
 [Service]
-Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/K96Rpi/timesync_service/K96Rpi_time_sync.py
 WorkingDirectory=/home/pi/K96Rpi/
-User=pi
 
 [Install]
 WantedBy=multi-user.target

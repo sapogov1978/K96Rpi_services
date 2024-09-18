@@ -146,20 +146,7 @@ def main():
         update_settings = settings.get("update")
         
         service_stoped = False
-    
-        #Stop working services
-        while not service_stoped:
-            try:
-                logger.info("SW UPDATE: Stoping services for update")
-                subprocess.run(['bash', '-c', "sudo systemctl stop $(systemctl list-units --type=service --no-pager --all | grep 'K96Rpi*.service' | awk '{print $1}')"], check=True)
-                logger.info("SW UPDATE: K96Rpi Services stopped")
-                subprocess.run(['bash', '-c', "sudo systemctl stop $(systemctl list-units --type=timer --no-pager --all | grep 'K96Rpi.*.timer' | awk '{print $1}')"], check=True)
-                logger.info("SW UPDATE: K96Rpi Timers stopped")
-                service_stoped = True
-            except subprocess.CalledProcessError as e:
-                logger.error(f"SW UPDATE: Failed to stop services or timers: {e}, still trying")
-                continue
-    
+            
         if args.sa_update:
             files = list_local_files(update_settings)
             if files is None:
@@ -189,6 +176,34 @@ def main():
             if not filtered_files:
                 logger.info("SW UPDATE: No updates available")
             else:
+                
+                #Stop working services
+                while not service_stoped:
+                    try:
+                        result_timers = subprocess.run(['bash', '-c', "systemctl list-units --type=timer --no-pager --all | grep 'K96Rpi*.timer' | awk '{print $1}'"], check=True, capture_output=True, text=True)
+                        timers = result_timers.stdout.strip()
+            
+                        if timers:
+                            subprocess.run(['sudo', 'systemctl', 'stop'] + timers.splitlines(), check=True)
+                            logger.info("SW UPDATE: K96Rpi timers stopped successfully.")
+                        else:
+                            logger.info("SW UPDATE: No K96Rpi timers running")
+                
+                        result_services = subprocess.run(['bash', '-c', "systemctl list-units --type=service --no-pager --all | grep 'K96Rpi*.service' | awk '{print $1}'"], check=True, capture_output=True, text=True)
+                        services = result_services.stdout.strip()
+            
+                        if services:
+                            subprocess.run(['sudo', 'systemctl', 'stop'] + services.splitlines(), check=True)
+                            logger.info("SW UPDATE: K96Rpi services stopped successfully.")
+                        else:
+                            logger.info("SW UPDATE: No K96Rpi services running")
+                
+                        service_stoped = True
+
+                    except subprocess.CalledProcessError as e:
+                        logger.error(f"SW UPDATE: Failed to stop services or timers: {e}, still trying")
+                        continue
+                
                 filtered_files.sort(key=lambda x: int(x.split('.')[0]))
                 logger.info("SW UPDATE: Installing available updates")
                 for file_info in filtered_files:
@@ -223,14 +238,13 @@ def main():
 
                     # Delete update files
                     remove_update_files(os.path.join(update_settings['update_local_folder'], file_info), extraction_destination)
+                    subprocess.run(['sudo', 'reboot'])
 
         except Exception as e:
             logger.error(f"SW UPDATE: Error in updates: {e}")
 
     else:
         logger.critical("SW UPDATE: Unable to load update_settings file. Exiting.")
-
-    subprocess.run(['sudo', 'reboot'])
 
 #------------------------------------------------------------------------------
 

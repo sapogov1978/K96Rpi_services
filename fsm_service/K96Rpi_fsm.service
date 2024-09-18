@@ -1,13 +1,11 @@
 [Unit]
 Description=K96Rpi File System Management Service
-Requires=K96Rpi_fsm.timer
-After=network.target
+Requires=K96Rpi_fsm.timer K96Rpi_usb_manager.timer
+After=network.target K96Rpi_usb_manager.service
 
 [Service]
-Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/K96Rpi/fsm_service/K96Rpi_fsm.py
 WorkingDirectory=/home/pi/K96Rpi/
-User=pi
 
 [Install]
 WantedBy=multi-user.target

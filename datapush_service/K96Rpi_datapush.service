@@ -1,6 +1,6 @@
 [Unit]
 Description=K96Rpi Data Push-to-server Service
-Requires=K96Rpi_fsm.timer K96Rpi_datacollection.service K96Rpi_datacalculation.service
+Requires=K96Rpi_fsm.timer K96Rpi_datacollection.service
 After=network.target K96Rpi_fsm.service
 
 [Service]

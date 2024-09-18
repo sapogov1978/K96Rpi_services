@@ -1,0 +1,10 @@
+[Unit]
+Description=K96Rpi USB Manager Timer
+After=network.target
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

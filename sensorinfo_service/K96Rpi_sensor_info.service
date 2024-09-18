@@ -1,13 +1,12 @@
 [Unit]
 Description=K96Rpi Sensor Info Service
-Requires=K96Rpi_sensor_info.timer K96Rpi_fsm.service
+Requires=K96Rpi_sensor_info.timer K96Rpi_fsm.timer
 After=network.target K96Rpi_fsm.service
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/K96Rpi/sensorinfo_service/K96Rpi_sensor_info.py
 WorkingDirectory=/home/pi/K96Rpi/
-User=pi
 
 [Install]
 WantedBy=multi-user.target

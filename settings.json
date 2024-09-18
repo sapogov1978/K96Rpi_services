@@ -2,10 +2,10 @@
     "timezone": "UTC",
     "Location": "47.2176763 -1.5591804,15.72",
     "synchro_flag": 107,
-    "last_known_date": 20240910,
+    "last_known_date": 20240917,
     "daily_routeen_complete": 1,
     "overheat": false,
-    "occlusion_detected": true,
+    "occlusion_detected": false,
     "heater_base_value": "0x0023",
     "heater_ref_address": "0x54",
     "heater_ctl_address": "0x50",
@@ -23,10 +23,10 @@
         "bytesize": 8,
         "arduino_address": "0x69",
         "sensor_address": "0x68",
-        "sensor_id": 0,
-        "sensor_id_addrss": "0x0008",
+        "sensor_id": 16848261,
+        "sensor_id_address": "0x0008",
         "tries": 3,
-        "last_user_data_file_id": 2020,
+        "last_user_data_file_id": 2021,
         "user_data_data_step": 1,
         "modbus_functions": {
             "READ_MULTIPLE_HR": "0x03",
@@ -62,18 +62,18 @@
         "logs": "logs/"
     },
     "local_files": {
-        "logs": "logs/20240910_K96Rpi-microservices-test_0_event.log",
-        "raw_data": "data/raw_data/20240910_K96Rpi-microservices-test_0_raw_data.csv",
+        "logs": "logs/20240917_K96Rpi-microservices-test_16848261_event.log",
+        "raw_data": "data/raw_data/20240917_K96Rpi-microservices-test_16848261_raw_data.csv",
         "calc_data": "data/temp_calc_data.csv",
-        "sensor_data": "data/raw_data/20240910_K96Rpi-microservices-test_0_sensor_data.txt",
-        "user_data": "data/user_data/NPC_K96Rpi-microservices-test_BOX0_1_20240910202230_2020.csv"
+        "sensor_data": "data/raw_data/20240917_K96Rpi-microservices-test_16848261_sensor_data.txt",
+        "user_data": "data/user_data/NPC_K96Rpi-microservices-test_BOX16848261_1_20240917182129_2021.csv"
     },
-    "update" : {
-        "update_server_ip": "192.168.88.254", 
-        "update_remote_folder": "c:\\SUEZ_collected_data\\updates\\", 
-        "update_local_folder": "/home/pi/K96Rpi/updates/", 
-        "last_installed_update": "20240825", 
-        "username": "suez_data_crawler", 
+    "update": {
+        "update_server_ip": "192.168.88.254",
+        "update_remote_folder": "c:\\SUEZ_collected_data\\updates\\",
+        "update_local_folder": "/home/pi/K96Rpi/updates/",
+        "last_installed_update": "20240825",
+        "username": "suez_data_crawler",
         "password": "test1221"
     },
     "sensor_info": {

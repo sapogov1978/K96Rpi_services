@@ -166,6 +166,18 @@ def read_raw_data(settings, comm_port, data_buffer, accumulation_complete_flag, 
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
+def settings_was_modified(settings_path, last_settings_mtime):
+    try:
+        current_mtime = os.path.getmtime(settings_path)
+        if current_mtime > last_settings_mtime:
+            return True, current_mtime
+        else:
+            return False, last_settings_mtime
+    except FileNotFoundError:
+        return False, last_settings_mtime
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
 def main():
     comm_port = None
     data_buffer = []
@@ -174,29 +186,34 @@ def main():
 
     try:
         settings = ll.load_settings()
-        if settings is None:
+        if settings is not None:
+            last_settings_mtime = 0
+        
+            while (1):
+                was_modified, last_settings_mtime = settings_was_modified('settings.json', last_settings_mtime)
+                if was_modified:
+                    settings = ll.load_settings()
+                    log_file = settings.get('local_files').get('logs')
+                    log_file = log_file.split('/')[-1]
+                    logger = ll.setup_logger(log_file)
+                
+                ll.acquire_lock("port", "datacollection")
+                comm_port = sde.open_port(settings)
+                if comm_port is not None:
+                    accumulation_complete_flag, calculation_buffer, data_buffer = read_raw_data(settings, comm_port, data_buffer, accumulation_complete_flag, calculation_buffer, logger)
+                    comm_port.close()
+                    comm_port = None
+                    ll.release_lock("port", "datacollection")
+                    if accumulation_complete_flag:
+                        write_calc_data_to_file(settings, calculation_buffer, logger)
+                        accumulation_complete_flag = False
+                        calculation_buffer.clear()
+                else:
+                    logger.critical("RDC: Port is not oppened")
+                    ll.release_lock("port", "datacollection")
+        else:
             logger.critical('RDC: Settings file corrupted.')
             sys.exit(1)
-        
-        log_file = settings.get('local_files').get('logs')
-        log_file = log_file.split('/')[-1]
-        logger = ll.setup_logger(log_file)
-        
-        while (1):
-            ll.acquire_lock("port", "datacollection")
-            comm_port = sde.open_port(settings)
-            if comm_port is not None:
-                accumulation_complete_flag, calculation_buffer, data_buffer = read_raw_data(settings, comm_port, data_buffer, accumulation_complete_flag, calculation_buffer, logger)
-                comm_port.close()
-                comm_port = None
-                ll.release_lock("port", "datacollection")
-                if accumulation_complete_flag:
-                    write_calc_data_to_file(settings, calculation_buffer, logger)
-                    accumulation_complete_flag = False
-                    calculation_buffer.clear()
-            else:
-                logger.critical("RDC: Port is not oppened")
-                ll.release_lock("port", "datacollection")
 
     except Exception as e:
         print(e)

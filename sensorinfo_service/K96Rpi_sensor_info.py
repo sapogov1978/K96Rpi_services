@@ -5,8 +5,6 @@ import os
 import sys
 import signal
 
-from datetime import datetime
-
 os.chdir("/home/pi/K96Rpi")
 sys.path.append("/home/pi/K96Rpi")
 
@@ -25,7 +23,7 @@ for file in files:
     file_path = os.path.join('locks', file)
     os.remove(file_path)
 
-current_date = datetime.now().strftime("%Y%m%d")
+current_date = datetime.datetime.now().strftime("%Y%m%d")
 logger = ll.setup_logger(f"{current_date}-sensor_info.log")
 
 #------------------------------------------------------------------------------

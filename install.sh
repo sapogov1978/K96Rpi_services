@@ -122,6 +122,20 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now K96Rpi_seriallistener.service
 echo -e "\033[1;32mK96Rpi calibration switch listener service installed and enabled.\033[0m"
 
+#install usb manager service
+echo -e "\033[1;33mInstalling K96Rpi usb connection manager service...\033[0m"
+sudo systemctl stop K96Rpi_usb_manager.timer
+sudo systemctl stop K96Rpi_usb_manager.service
+sudo systemctl disable K96Rpi_usb_manager.timer
+sudo systemctl disable K96Rpi_usb_manager.service
+sudo rm -f /etc/systemd/system/K96Rpi_usb_manager.*
+sudo cp -f usb_service/K96Rpi_usb_manager.* /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now K96Rpi_usb_manager.timer
+echo -e "\033[1;32mK96Rpi usb connection manager service installed and enabled.\033[0m"
+
+
+
 #restart the box
 echo -e "\033[1;33mReloading systemd daemon...\033[0m"
 sudo systemctl daemon-reload
