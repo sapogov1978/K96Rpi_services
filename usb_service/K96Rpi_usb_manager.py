@@ -13,9 +13,9 @@ import libs.local as ll
 #------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'USB CONNECTION SERVICE: Sigterm recieved:\n {signum}\n {frame}')
+#------------------------------------------------------------------------------
 
 signal.signal(signal.SIGTERM, sigterm_handler)
-#------------------------------------------------------------------------------
 
 files = [f for f in os.listdir('locks') if f.endswith('-usb.lock')]
 for file in files:
