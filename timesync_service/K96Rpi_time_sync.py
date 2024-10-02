@@ -11,20 +11,20 @@ sys.path.append("/home/pi/K96Rpi")
 import libs.sensor_data_exchange as sde
 import libs.local as ll
 
+current_date = datetime.datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-time_sync.log")
+
 #------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'TIME SYNC SERVICE: Sigterm recieved:\n {signum}\n {frame}')
+#------------------------------------------------------------------------------
 
 signal.signal(signal.SIGTERM, sigterm_handler)
-#------------------------------------------------------------------------------
 
 files = [f for f in os.listdir('locks') if f.endswith('-timesync.lock')]
 for file in files:
     file_path = os.path.join('locks', file)
     os.remove(file_path)
-
-current_date = datetime.datetime.now().strftime("%Y%m%d")
-logger = ll.setup_logger(f"{current_date}-time_sync.log")
 
 #------------------------------------------------------------------------------
 def update_RTC_time(settings, comm_port, server_datetime_24h, arduino_address, time_register_address):
