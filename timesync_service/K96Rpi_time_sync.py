@@ -70,8 +70,6 @@ def sync_with_RTC(settings, comm_port, arduino_address, time_register_address):
 def sync_with_server(settings, host):
     username = settings.get('server').get('username')
     password = settings.get('server').get('password')
-
-    logger.info("TIMESYNC: Time source - SERVER")
         
     powershell_command = '(Get-Date).ToUniversalTime().ToString(\\\"yyyy-MM-dd HH:mm:ss\\\")'
     ssh_command = f"sshpass -p {password} ssh -o StrictHostKeyChecking=no {username}@{host} 'powershell -Command {powershell_command}'"
@@ -114,8 +112,6 @@ def synchronize_time(settings, comm_port):
     #t_zone = settings.get('timezone')
 
     serverIsAlive = ll.check_server_response(host)
-    if not serverIsAlive:
-        logger.warning("TIMESYNC: Server is not answering")
 
     if serverIsAlive:
         logger.info("TIMESYNC: Timesource - server")
@@ -127,6 +123,7 @@ def synchronize_time(settings, comm_port):
             logger.info("TIMESYNC: Timesource - arduino RTC")
             synchronized_time = sync_with_RTC(settings, comm_port, arduino_address, time_register_address)
     else:
+        logger.warning("TIMESYNC: Server is not answering")
         logger.info("TIMESYNC: Timesource - arduino RTC")
         synchronized_time = sync_with_RTC(settings, comm_port, arduino_address, time_register_address)
     
