@@ -46,14 +46,10 @@ def sync_with_RTC(settings, comm_port, arduino_address, time_register_address):
     read_time = settings.get('box').get('modbus_functions').get('READ_MULTIPLE_HR')
     values = sde.data_exchange(settings, comm_port, arduino_address, read_time, time_register_address, 2)
 
-    if values is None:
+    if values is None or len(values[3:-2]) != 2:
         logger.fatal("TIMESYNC: Error reading registers")
         return None
 
-    if len(values[3:-2]) != 2:
-        logger.fatal("TIMESYNC: Error reading registers")
-        return None
-        
     unixtime = values[3:-2]
     value1 = int.from_bytes(unixtime[:2], 'big')
     value2 = int.from_bytes(unixtime[2:], 'big')
