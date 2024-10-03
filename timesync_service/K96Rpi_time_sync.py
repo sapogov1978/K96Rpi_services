@@ -28,25 +28,21 @@ for file in files:
 
 #------------------------------------------------------------------------------
 def update_RTC_time(settings, comm_port, server_datetime_24h, arduino_address, time_register_address):
-    if comm_port is not None:
-        write_time = settings.get('box').get('modbus_functions').get('WRITE_MULTIPLE_HR')
+    write_time = settings.get('box').get('modbus_functions').get('WRITE_MULTIPLE_HR')
 
-        unix_time = int(server_datetime_24h.timestamp())
-        unix_time_to_RTC = hex(unix_time)
+    unix_time = int(server_datetime_24h.timestamp())
+    unix_time_to_RTC = hex(unix_time)
         
-        write_to_RTC = sde.data_exchange(settings, comm_port, arduino_address, write_time, time_register_address, 4, unix_time_to_RTC)
+    write_to_RTC = sde.data_exchange(settings, comm_port, arduino_address, write_time, time_register_address, 4, unix_time_to_RTC)
     
-        if write_to_RTC is not None:
-            logger.info("TIMESYNC: RTC time updated to server time")
-        else:
-            logger.critical("TIMESYNC: Unable to update RTC time")
+    if write_to_RTC is not None:
+        logger.info("TIMESYNC: RTC time updated to server time")
     else:
-        logger.critical("TIMESYNC: Unable to update RTC time, port is not oppened")
+        logger.critical("TIMESYNC: Unable to update RTC time")
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 def sync_with_RTC(settings, comm_port, arduino_address, time_register_address):
-    logger.info("TIMESYNC: Time source - RTC")
     read_time = settings.get('box').get('modbus_functions').get('READ_MULTIPLE_HR')
     values = sde.data_exchange(settings, comm_port, arduino_address, read_time, time_register_address, 2)
 
