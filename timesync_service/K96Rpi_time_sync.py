@@ -50,7 +50,7 @@ def sync_with_RTC(settings, comm_port, arduino_address, time_register_address):
         logger.fatal("TIMESYNC: Error reading registers")
         return None
 
-    if len(values[3:-2]) < 2:
+    if len(values[3:-2]) != 2:
         logger.fatal("TIMESYNC: Error reading registers")
         return None
         
