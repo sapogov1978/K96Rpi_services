@@ -21,14 +21,9 @@ logger = ll.setup_logger(f"{current_date}-seriallistener.log")
 #------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'SERIAL PORT LISTENER: Sigterm recieved:\n {signum}\n {frame}')
-
-signal.signal(signal.SIGTERM, sigterm_handler)
 #------------------------------------------------------------------------------
 
-files = [f for f in os.listdir('locks') if f.endswith('-seriallistener.lock')]
-for file in files:
-    file_path = os.path.join('locks', file)
-    os.remove(file_path)
+signal.signal(signal.SIGTERM, sigterm_handler)
 
 #------------------------------------------------------------------------------
 def calibration():
