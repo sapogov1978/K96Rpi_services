@@ -390,21 +390,24 @@ def main():
         N/A
     """
     settings = ll.load_settings()
-    try:
-        run_fsm(settings)
-        settings['last_known_date'] = int(datetime.now().strftime('%Y%m%d'))
-        settings['daily_routeen_complete'] = 1
-        save_settings = ll.save_settings(settings)
-        if save_settings != 0:
-            if save_settings != 1:
-                logger.critical(f"Error while saving settings. {save_settings}")
+    if settings is not None:
+        try:
+            run_fsm(settings)
+            settings['last_known_date'] = int(datetime.now().strftime('%Y%m%d'))
+            settings['daily_routeen_complete'] = 1
+            save_settings = ll.save_settings(settings)
+            if save_settings != 0:
+                if save_settings != 1:
+                    logger.critical(f"Error while saving settings. {save_settings}")
+                else:
+                    logger.critical("Error while saving settings, settings file not found")
             else:
-                logger.critical("Error while saving settings, settings file not found")
-        else:
-            logger.info("Settings updated with new pathes")
+                logger.info("Settings updated with new pathes")
         
-    except Exception as e:
-        logger.fatal(f"FSM(fsm_routeen): Error occurred in fsm.py: {str(e)}")
+        except Exception as e:
+            logger.critical(f"FSM(fsm_routeen): Error occurred in fsm.py: {str(e)}")
+    else:
+        logger.critical(f"FSM: Settings file corrupted")
     finally:
         ll.release_lock("port", "fsm")
 #------------------------------------------------------------------------------
