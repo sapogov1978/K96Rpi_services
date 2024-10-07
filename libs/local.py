@@ -47,13 +47,15 @@ def save_settings(settings):
         acquire_lock("settings", "local_lib")
         with open('settings.json', 'w') as settings_file:
             json.dump(settings, settings_file, indent=4)
-        release_lock("settings", "local_lib")
+            release_lock("settings", "local_lib")
         return 0
         
     except FileNotFoundError as e:
         return 1
     except Exception as e:
         return e
+    finally:
+        release_lock("settings", "local_lib")
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
