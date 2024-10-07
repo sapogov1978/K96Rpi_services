@@ -14,20 +14,26 @@ sys.path.append("/home/pi/K96Rpi")
 import libs.sensor_data_exchange as sde
 import libs.local as ll
 
+current_date = datetime.now().strftime("%Y%m%d")
+logger = ll.setup_logger(f"{current_date}-fsm.log")
+
+#------------------------------------------------------------------------------
+def clean_locks():
+    files = [f for f in os.listdir('locks') if f.endswith('-fsm.lock')]
+    for file in files:
+        file_path = os.path.join('locks', file)
+        os.remove(file_path)
+#------------------------------------------------------------------------------
+
 #------------------------------------------------------------------------------
 def sigterm_handler(signum, frame):
     logger.critical(f'FSM SERVICE: Sigterm recieved:\n {signum}\n {frame}')
-
-signal.signal(signal.SIGTERM, sigterm_handler)
+    clean_locks()
 #------------------------------------------------------------------------------
 
-files = [f for f in os.listdir('locks') if f.endswith('-fsm.lock')]
-for file in files:
-    file_path = os.path.join('locks', file)
-    os.remove(file_path)
+signal.signal(signal.SIGTERM, sigterm_handler)
 
-current_date = datetime.now().strftime("%Y%m%d")
-logger = ll.setup_logger(f"{current_date}-fsm.log")
+clean_locks()
 
 #------------------------------------------------------------------------------
 def check_disk_space(directory):
