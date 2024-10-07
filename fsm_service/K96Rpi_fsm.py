@@ -394,7 +394,7 @@ def main():
         if settings is not None:
             run_fsm(settings)
             settings['last_known_date'] = int(datetime.now().strftime('%Y%m%d'))
-            settings['daily_routeen_complete'] = 1
+            #settings['daily_routeen_complete'] = 1
             save_settings = ll.save_settings(settings)
             if save_settings != 0:
                 if save_settings != 1:
